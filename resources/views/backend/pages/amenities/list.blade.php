@@ -12,7 +12,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
                     <th scope="col">Status</th>
-                    <th>Action</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,8 +32,8 @@
                 columns: [{
                         data: null,
                         name: 'id',
-                        data: function(row) {
-                            return row.id;
+                        data: function(row, type, full, meta) {
+                            return meta.row + 1;
                         }
                     },
                     {
