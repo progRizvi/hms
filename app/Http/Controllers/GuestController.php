@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Guest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class GuestController extends Controller
 {
-    public function list() {
+    function list() {
         $guest = Guest::all();
+
         if (request()->ajax()) {
             return DataTables::of($guest)
                 ->addColumn('action', function ($data) {
@@ -30,40 +32,65 @@ class GuestController extends Controller
     }
     public function store(Request $request)
     {
+        $validation = Validator::make($request->all(), [
+            "name" => "required",
+            "email" => "required",
+            "address" => "required",
+        ]);
+        if ($validation->fails()) {
+            foreach ($validation->errors()->all() as $error) {
+                toastr()->error($error);
+            }
+            return redirect()->back();
+        }
         Guest::create([
             'name' => $request->name,
             'email' => $request->email,
             'age' => $request->age,
             'gender' => $request->gender,
             'address' => $request->address,
-            'description' => $request->textarea,
+            'description' => $request->description,
         ]);
         return to_route('guest.list');
 
     }
 
-    public function guest_list_report()
+    public function edit($id)
     {
-
-        return view('backend.pages.Report.guestlist');
-
+        $guest = Guest::find($id);
+        return view('backend.pages.guest.edit', compact('guest'));
     }
-
-    public function guest_list_report_search()
+    public function update(Request $request, $id)
     {
-
-        $request->validate([
-            'from_date' => 'required|date',
-            'to_date' => 'required|date|after:from_date',
-
+        $validation = Validator::make($request->all(), [
+            "name" => "required",
+            "email" => "required",
+            "address" => "required",
         ]);
 
-        $from = $request->from_date;
-        $to = $request->to_date;
-
-        $guest = Guest::whereBetween('çreated_at', [$from, $to])->get();
-        return view('backend.pages.Report.guestlist', compact('guest_list'));
-
+        if ($validation->fails()) {
+            foreach ($validation->errors()->all() as $error) {
+                toastr()->error($error);
+            }
+            return redirect()->back();
+        }
+        $guest = Guest::find($id);
+        $guest->name = $request->name;
+        $guest->email = $request->email;
+        $guest->age = $request->age;
+        $guest->address = $request->address;
+        $guest->gender = $request->gender;
+        $guest->description = $request->description;
+        $guest->save();
+        toastr()->success('Guest Updated Successfully');
+        return to_route('guest.list');
+    }
+    public function delete($id)
+    {
+        $guest = Guest::find($id);
+        $guest->delete();
+        toastr()->success('Guest Deleted Successfully');
+        return to_route('guest.list');
     }
 
 }

@@ -14,7 +14,6 @@
                     <th>Age</th>
                     <th>Gender</th>
                     <th>Address</th>
-                    <th>Description</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -66,8 +65,8 @@
                 columns: [{
                         name: 'id',
                         data: null,
-                        data: function(row) {
-                            return row.id;
+                        data: function(row, type, val, meta) {
+                            return meta.row + 1;
                         }
                     },
                     {
@@ -89,10 +88,6 @@
                     {
                         data: 'address',
                         name: 'address'
-                    },
-                    {
-                        data: 'description',
-                        name: 'description'
                     },
                     {
                         data: 'action',
