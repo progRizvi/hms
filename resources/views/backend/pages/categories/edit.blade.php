@@ -1,4 +1,5 @@
 @extends('backend.master')
+@section('title', 'Edit Room Type')
 @section('content')
     <div class="container">
 

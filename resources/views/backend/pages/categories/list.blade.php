@@ -1,9 +1,10 @@
 @extends('backend.master')
+@section('title', 'Room Type List')
 @section('content')
     <div class="container">
         <h2 class="text-center">Room Type</h2>
         <hr>
-        <a href="{{ route('roomtype.create') }}"><button class="btn btn-outline-primary">Create</button></a>
+        <a href="{{ route('roomtype.create') }}" class="mb-3"><button class="btn btn-outline-primary">Create</button></a>
 
         <table class="table table-bordered" id="categories-table">
             <thead>
@@ -29,8 +30,8 @@
                 ajax: '{{ route('roomtype.list') }}',
                 columns: [{
                         name: 'id',
-                        data: function(row) {
-                            return row.id;
+                        data: function(row, type, full, meta) {
+                            return meta.row + 1;
                         }
                     },
                     {

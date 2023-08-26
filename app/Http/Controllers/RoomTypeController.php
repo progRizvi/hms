@@ -9,22 +9,22 @@ use Yajra\DataTables\Facades\DataTables;
 
 class RoomTypeController extends Controller
 {
-    function list() {
+    public function list() {
 
-        $categories = RoomType::all();
+        $roomTypes = RoomType::all();
         if (request()->ajax()) {
-            return DataTables::of($categories)
-                ->addColumn('action', function ($category) {
-                    $button = '<a href="' . route('roomtype.edit', $category->id) . '" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>';
+            return DataTables::of($roomTypes)
+                ->addColumn('action', function ($roomtype) {
+                    $button = '<a href="' . route('roomtype.edit', $roomtype->id) . '" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>';
                     $button .= '&nbsp;&nbsp;';
-                    $button .= '<a href="' . route('roomtype.delete', $category->id) . '" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>';
+                    $button .= '<a href="' . route('roomtype.delete', $roomtype->id) . '" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>';
                     return $button;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
 
         }
-        return view('backend.pages.categories.list', compact('categories'));
+        return view('backend.pages.categories.list', compact('roomTypes'));
 
     }
 
@@ -66,19 +66,22 @@ class RoomTypeController extends Controller
     public function update(Request $request, $id)
     {
         $validation = Validator::make($request->all(), [
-            'name' => 'required|unique:categories,name,' . $id,
+            'name' => 'required|unique:room_types,name,' . $id,
         ]);
         if ($validation->fails()) {
-            toastr()->error($validation->errors()->first());
+            foreach ($validation->errors()->all() as $item) {
+                toastr()->error($item);
+            }
             return redirect()->back();
         }
         $roomtype = RoomType::find($id);
         $input = $request->except("_token");
-        $fileName = null;
+
+        $fileName = $roomtype->image;
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
-            $file->move('./uploads/category/', $fileName);
+            $file->move('./uploads/roomTypes/', $fileName);
             $input['image'] = $fileName;
         }
         $status = $roomtype->fill($input)->save();
