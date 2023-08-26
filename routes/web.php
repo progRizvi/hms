@@ -23,13 +23,13 @@ use Illuminate\Support\Facades\Route;
 //frontend template route
 
 // customer user
-Route::get('register-create', [CustomerController::class, 'create'])->name('register.create');
+
 Route::post('register-store', [CustomerController::class, 'store'])->name('register.store');
 
-Route::get('user-customer-login', [CustomerController::class, 'customerLogin'])->name('userCustomer.login');
 Route::post('user-customer-login', [CustomerController::class, 'customerDoLogin'])->name('userCustomer.login');
 
 Route::get('user-customer-logout', [CustomerController::class, 'customerLogout'])->name('userCustomer.logout');
+
 //user login and register
 Route::get('/', [FrontendHomeController::class, 'home'])->name('frontend.home');
 Route::get('/user/login', [UserController::class, 'login'])->name('user.login');
@@ -42,6 +42,7 @@ Route::post('/user/do-login', [UserController::class, 'dologin'])->name('user.do
 Route::get('/booking/{id}', [UserBookingController::class, 'booking'])->name('user.booking');
 Route::get("/available/rooms/", [FrontendRoomController::class, 'availableRooms'])->name('available.rooms');
 Route::group(['prefix' => 'user', 'middleware' => 'auth:customers'], function () {
+
     Route::get('/dashboard', [UserPanelController::class, 'index'])->name('user.dashboard');
     Route::get('/logout', [CustomerController::class, 'logout'])->name('user.logout');
     Route::get("/all-booking", [UserPanelController::class, 'allBooking'])->name('user.all.booking');

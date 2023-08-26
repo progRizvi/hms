@@ -74,15 +74,97 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="index.html" class="nav-item nav-link active">Home</a>
-
                     <a href="package.html" class="nav-item nav-link">Packages</a>
-
-                    {{-- <a href="{{ route('booking.index') }}" class="nav-item nav-link">Booking Now</a> --}}
-
-
-
-                    <a href="{{ route('userCustomer.login') }}" class="nav-item nav-link">Login</a>
+                    @auth('customers')
+                        <a href="{{ route('user.dashboard') }}" class="nav-item nav-link">Dashboard</a>
+                        <a href="{{ route('userCustomer.logout') }}" class="nav-item nav-link">Logout</a>
+                    @else
+                        <a href="javascript:void(0)" class="nav-item nav-link" data-bs-toggle="modal"
+                            data-bs-target="#modalLoginForm">Login</a>
+                        <a href="javascript:void(0)" class="nav-item nav-link" data-bs-toggle="modal"
+                            data-bs-target="#modalRegisterForm">Register</a>
+                    @endauth
                 </div>
-                <a href="{{ route('register.create') }}" class="btn btn-primary rounded-pill py-2 px-4">Register</a>
             </div>
         </nav>
+
+        <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-bs-labelledby="myModalLabel"
+            aria-bs-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+                        <button type="button" class="btn close" data-bs-dismiss="modal" aria-bs-label="Close">
+                            <span aria-bs-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('userCustomer.login') }}" method="post">
+                        @csrf
+                        <div class="modal-body mx-3">
+                            <div class="md-form mb-5">
+                                <i class="fas fa-envelope prefix grey-text"></i>
+                                <input type="email" id="defaultForm-email" class="form-control validate"
+                                    name="email">
+                                <label data-bs-error="wrong" data-bs-success="right" for="defaultForm-email">Your
+                                    email</label>
+                            </div>
+
+                            <div class="md-form mb-4">
+                                <i class="fas fa-lock prefix grey-text"></i>
+                                <input type="password" id="defaultForm-pass" class="form-control validate"
+                                    name="password">
+                                <label data-bs-error="wrong" data-bs-success="right" for="defaultForm-pass">Your
+                                    password</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center">
+                            <button type="submit" class="btn btn-default">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog"
+            aria-bs-labelledby="myModalLabel" aria-bs-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+                        <button type="button" class="btn close" data-bs-dismiss="modal" aria-bs-label="Close">
+                            <span aria-bs-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('register.store') }}" method="post">
+                        @csrf
+                        <div class="modal-body mx-3">
+                            <div class="md-form mb-5">
+                                <i class="fas fa-user prefix grey-text"></i>
+                                <input type="text" id="orangeForm-name" class="form-control validate"
+                                    name="name">
+                                <label data-error="wrong" data-success="right" for="orangeForm-name">Your
+                                    name</label>
+                            </div>
+                            <div class="md-form mb-5">
+                                <i class="fas fa-envelope prefix grey-text"></i>
+                                <input type="email" id="orangeForm-email" class="form-control validate"
+                                    name="email">
+                                <label data-error="wrong" data-success="right" for="orangeForm-email">Your
+                                    email</label>
+                            </div>
+
+                            <div class="md-form mb-4">
+                                <i class="fas fa-lock prefix grey-text"></i>
+                                <input type="password" id="orangeForm-pass" class="form-control validate"
+                                    name="password">
+                                <label data-error="wrong" data-success="right" for="orangeForm-pass">Your
+                                    password</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center">
+                            <button class="btn btn-deep-orange">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>

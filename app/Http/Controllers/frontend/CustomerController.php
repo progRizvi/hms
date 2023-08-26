@@ -22,7 +22,9 @@ class CustomerController extends Controller
             'password' => 'required|min:6',
         ]);
         if ($validation->fails()) {
-            Toastr::error('Please fill up the form correctly', 'Error');
+            foreach ($validation->messages()->all() as $messages) {
+                Toastr::error($messages);
+            }
             return redirect()->back();
         }
         CustomerUser::create([
@@ -31,19 +33,21 @@ class CustomerController extends Controller
             'password' => bcrypt($request->password),
         ]);
         Toastr::success('Registration Successfully', 'Success');
-        return to_route('userCustomer.login');
+        return to_route('frontend.home');
 
-    }
-    public function customerLogin()
-    {
-        return view('frontend.pages.customers.login');
     }
     public function customerDoLogin(Request $request)
     {
-        $request->validate([
+        $validation = Validator::make($request->all(), [
             'email' => 'required',
             'password' => 'required|min:6',
         ]);
+        if ($validation->fails()) {
+            foreach ($validation->messages()->all() as $messages) {
+                Toastr::error($messages);
+            }
+            return redirect()->back();
+        }
         $creadentials = $request->only('email', 'password');
         $user = auth()->guard('customers')->attempt($creadentials);
         if ($user) {
