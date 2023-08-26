@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -14,31 +15,35 @@ class UserController extends Controller
 
     public function dologin(Request $request)
     {
-
-        $request->validate([
+        $validation = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|min:6',
-
         ]);
-
-// dd($request);
-
+        if ($validation->fails()) {
+            foreach ($validation->errors()->all() as $error) {
+                toastr()->error($error);
+                return redirect()->back();
+            }
+            return redirect()->back();
+        }
         $credentials = $request->except('_token');
 
-// dd($credentials);
-
         if (auth()->attempt($credentials)) {
-            return redirect()->route('frontend.home')->with('msg', 'login success');
+            toastr()->success('Login success');
+            return redirect()->route('admin.dashboard');
         } else {
-            return redirect()->back()->withErrors(['Invalid login info']);
+            toastr()->error('Login failed');
+            return redirect()->back();
         }
     }
 
     public function logout()
     {
         Auth::guard('web')->logout();
-        return redirect()->route('admin.logout')->with('msg', 'Logout success');
-
+        if (!Auth::guard('web')->check()) {
+            toastr()->success('Logout success');
+            return redirect()->route('login');
+        }
     }
 
 }
