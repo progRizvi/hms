@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Package;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -17,5 +18,13 @@ class UserBookingController extends Controller
     {
         $room = Room::find($id);
         return view('frontend.pages.bookings.booking', compact('room'));
+    }
+    public function cancel($id)
+    {
+        $booking = Booking::find($id);
+        $booking->status = "cancel";
+        $booking->save();
+        toastr()->success('Booking Cancelled Successfully');
+        return redirect()->back();
     }
 }

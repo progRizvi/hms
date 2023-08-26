@@ -10,8 +10,11 @@ class UserPanelController extends Controller
     {
         return view('frontend.pages.user_panel.layout');
     }
+
     public function allBooking()
     {
-        return view('frontend.pages.user_panel.bookings');
+        $bookings = auth("customers")->user()->bookings()->with(['room', "booking_details"])->get();
+
+        return view('frontend.pages.user_panel.bookings', compact("bookings"));
     }
 }

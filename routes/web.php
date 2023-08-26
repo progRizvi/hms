@@ -46,6 +46,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:customers'], function ()
     Route::get('/dashboard', [UserPanelController::class, 'index'])->name('user.dashboard');
     Route::get('/logout', [CustomerController::class, 'logout'])->name('user.logout');
     Route::get("/all-booking", [UserPanelController::class, 'allBooking'])->name('user.all.booking');
+    Route::get("/booking/cancel/{id}", [UserBookingController::class, 'cancel'])->name('user.cancel.booking');
     Route::get('/profile', [HomeController::class, 'profile'])->name('user.profile');
     Route::get('/profile/edit', [HomeController::class, 'profileEdit'])->name('user.profile.edit');
     Route::post('/profile/update', [HomeController::class, 'profileUpdate'])->name('user.profile.update');
