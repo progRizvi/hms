@@ -15,11 +15,6 @@ class BookingController extends Controller
         $bookLists = Booking::with(['room', "room_type", "user", "booking_details"])->get();
         if (request()->ajax()) {
             return DataTables::of($bookLists)
-                ->addColumn('action', function ($data) {
-                    $button = '<a href="' . route('booking.edit', $data->id) . '" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Edit</a>';
-                    $button .= '&nbsp;&nbsp;';
-                    return $button;
-                })
                 ->rawColumns(['action'])
                 ->make(true);
         };
@@ -30,7 +25,6 @@ class BookingController extends Controller
     {
         $rooms = Room::all();
         $amenities = Amenity::all();
-        // dd($categories);
         return view('backend.pages.books.create', compact('rooms', 'amenities'));
     }
     public function store(Request $request)
@@ -43,10 +37,47 @@ class BookingController extends Controller
         ]);
         return to_route('room.list');
     }
+    public function edit($id)
+    {
+        $book = Booking::find($id);
+        $rooms = Room::all();
+        $amenities = Amenity::all();
+        return view('backend.pages.books.edit', compact('book', 'rooms', 'amenities'));
+    }
+    public function update(Request $request, $id)
+    {
+        $book = Booking::find($id);
+        $book->update([
+            'date' => $request->date,
+            'category_id' => $request->category_id,
+            'room_id' => $request->room_id,
+            'Am_id' => $request->Am_id,
+        ]);
+        return to_route('room.list');
+    }
+
     public function delete($id)
     {
 
         Booking::destroy($id);
+        return redirect()->back();
+    }
+    public function confirm($id)
+    {
+        $book = Booking::find($id);
+        $book->update([
+            'status' => "Confirm",
+        ]);
+        toastr()->success('Booking Confirm Successfully');
+        return redirect()->back();
+    }
+    public function cancel($id)
+    {
+        $book = Booking::find($id);
+        $book->update([
+            'status' => "Cancel",
+        ]);
+        toastr()->success('Booking Cancel Successfully');
         return redirect()->back();
     }
 }

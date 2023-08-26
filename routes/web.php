@@ -141,9 +141,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
         Route::get('/edit/{id}', [BookingController::class, 'edit'])->name('booking.edit');
         Route::post('/update/{id}', [BookingController::class, 'update'])->name('booking.update');
         Route::get('/delete/{id}', [BookingController::class, 'delete'])->name('booking.delete');
+        Route::get('/status/confirm/{id}', [BookingController::class, 'confirm'])->name('booking.confirm');
+        Route::get('/status/cancel/{id}', [BookingController::class, 'cancel'])->name('booking.cancel');
     });
 
-//payment
+    //payment
     Route::get('/payment/list', [PaymentController::class, 'list'])->name('payment.list');
     Route::get('/Payment-create-form', [PaymentController::class, 'create'])->name('Payment.create');
     Route::post('/Payment-store', [PaymentController::class, 'store'])->name('payment.store');

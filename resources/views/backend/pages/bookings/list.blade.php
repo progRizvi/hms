@@ -1,8 +1,8 @@
 @extends('backend.master')
+@section('title', 'Booking List')
 @section('content')
     <div class="container">
         <h2>Booking List</h2>
-        {{-- <a class="btn btn primary"href="{{ route('book.create') }}"><button class="btn btn-outline-primary">Create</button></a> --}}
         <table class="table table-bordered" id="booking-table">
             <thead>
                 <tr>
@@ -12,6 +12,8 @@
                     <th>Check In Date</th>
                     <th>Check Out Date</th>
                     <th>Days</th>
+                    <th>Paid</th>
+                    <th>Due</th>
                     <th>Room Number</th>
                     <th>Action</th>
                 </tr>
@@ -26,7 +28,7 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            $("#booking-table").DataTable({
+            const table = $("#booking-table").DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('booking.list') }}",
@@ -104,17 +106,38 @@
                         }
                     },
                     {
+                        name: 'paid',
+                        data: null,
+                        render: function(data) {
+                            return `BDT ${data.advance}`;
+                        }
+                    },
+                    {
+                        name: 'due',
+                        data: null,
+                        render: function(data) {
+                            return `BDT ${data.total_due}`;
+                        }
+                    },
+                    {
                         name: 'room_number',
                         data: null,
                         render: function(data) {
                             return data.room.room_number;
                         }
-                    },
-                    {
-                        data: 'action',
+                    }, {
                         name: 'action',
-                        orderable: false,
-                        searchable: false
+                        data: null,
+                        render: function(data) {
+                            if (data.status == "pending") {
+                                return `<a href="{{ route('booking.confirm', '') }}/${data.id}" class="btn btn-primary btn-sm">Confirm</a>
+                            <a href="{{ route('booking.cancel', '') }}/${data.id}" class="btn btn-danger btn-sm">Cancel</a>`;
+                            } else if (data.status == "confirmed") {
+                                return `<a href="{{ route('booking.cancel', '') }}/${data.id}" class="btn btn-danger btn-sm">Cancel</a>`;
+                            } else {
+                                return `<a href="{{ route('booking.confirm', '') }}/${data.id}" class="btn btn-primary btn-sm">Confirm</a>`;
+                            }
+                        }
                     }
                 ],
                 colReorder: true,
