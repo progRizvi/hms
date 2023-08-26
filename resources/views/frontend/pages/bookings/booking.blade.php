@@ -23,13 +23,15 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <span class="form-label">Check In</span>
-                                            <input class="form-control" type="date" name="check_in" required>
+                                            <input class="form-control" type="date" name="check_in" required
+                                                id="checkin">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <span class="form-label">Check Out</span>
-                                            <input class="form-control" type="date" name="check_out" required>
+                                            <input class="form-control" type="date" name="check_out" required
+                                                id="checkout">
                                         </div>
                                     </div>
                                 </div>
@@ -55,7 +57,7 @@
                                         placeholder="Enter your phone number">
                                 </div>
                                 <input type="hidden" name="amount" value={{ $room->amount }}>
-                                <p class="mt-3">Payment: BDT {{ $room->amount }}</p>
+                                <p class="mt-3">Payment: BDT <span id="total">{{ $room->amount }}</span></p>
                                 <div class="form-group">
                                     <span class="form-label">Advance</span>
                                     <input class="form-control" type="number" name="advance" required
@@ -72,3 +74,21 @@
         </div>
     </div>
 @endsection
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $("#checkin, #checkout").change(function() {
+                var checkin = $("#checkin").val();
+                var checkout = $("#checkout").val();
+                var date1 = new Date(checkin);
+                var date2 = new Date(checkout);
+                var Difference_In_Time = date2.getTime() - date1.getTime();
+                var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+                var amount = {{ $room->amount }};
+                var total = amount * Difference_In_Days;
+                $('[name="amount"]').val(total ? total : "{{ $room->amount }}");
+                $("#total").text(total ? total : "{{ $room->amount }}");
+            });
+        });
+    </script>
+@endpush

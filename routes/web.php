@@ -54,16 +54,15 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:customers'], function ()
     Route::get('/booking/{id}', [UserBookingController::class, 'booking'])->name('user.booking');
     Route::get("/get/package/info", [UserBookingController::class, 'getPackageInfo'])->name('get.package.info');
 
+    Route::post('/pay/{id}', [SslCommerzPaymentController::class, 'index'])->name("pay.now");
+    Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
+
+    Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
+    Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
+
+    Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 });
-
-Route::post('/pay/{id}', [SslCommerzPaymentController::class, 'index'])->name("pay.now");
-Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
-
 Route::post('/success', [SslCommerzPaymentController::class, 'success']);
-Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
-Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
-
-Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 
 Route::get("/room/details/{id}", [FrontendHomeController::class, 'roomDetails'])->name('room.details');
 

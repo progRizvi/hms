@@ -16,9 +16,6 @@ class SslCommerzPaymentController extends Controller
 
     public function index(Request $request, $id)
     {
-        # Here you have to receive all the order data to initate the payment.
-        # Let's say, your oder transaction informations are saving in a table called "orders"
-        # In "orders" table, order unique identity is "transaction_id". "status" field contain status of the transaction, "amount" is the order amount to be paid and "currency" is for storing Site Currency which will be checked with paid currency.
 
         $room = Room::find($id);
         $post_data = array();
@@ -113,7 +110,7 @@ class SslCommerzPaymentController extends Controller
                     'advance' => $post_data['total_amount'],
                     'total_amount' => $post_data['amount'],
                     'total_due' => $post_data['amount'] - $post_data['total_amount'],
-
+                    "transaction_id" => $post_data['tran_id'],
                 ]);
             }
 
@@ -217,6 +214,7 @@ class SslCommerzPaymentController extends Controller
         echo "Transaction is Successful";
 
         $tran_id = $request->input('tran_id');
+
         $amount = $request->input('amount');
 
         $sslc = new SslCommerzNotification();
@@ -224,7 +222,7 @@ class SslCommerzPaymentController extends Controller
         #Check order status in order tabel against the transaction id or order id.
         $booking_details = DB::table('bookings')
             ->where('transaction_id', $tran_id)
-            ->select('transaction_id', 'status', 'advance')->first();
+            ->select('transaction_id', 'status', 'advance', "room_id")->first();
         if ($booking_details->status == 'Pending') {
             $validation = $sslc->orderValidate($request->all(), $tran_id, $amount);
 
@@ -236,7 +234,7 @@ class SslCommerzPaymentController extends Controller
                  */
                 $booking_details = DB::table('bookings')
                     ->where('transaction_id', $tran_id)
-                    ->update(['status' => 'Processing']);
+                    ->update(['status' => 'Processing', 'card_type' => $request->card_type]);
 
                 echo "<br >Transaction is successfully Completed";
             }
@@ -249,8 +247,8 @@ class SslCommerzPaymentController extends Controller
             #That means something wrong happened. You can redirect customer to your product page.
             echo "Invalid Transaction";
         }
-        dd($request->all());
-        return to_route("home");
+        toastr()->success('Success!', 'Booking Successfully');
+        return to_route("frontend.home");
 
     }
 
@@ -309,7 +307,7 @@ class SslCommerzPaymentController extends Controller
 
             if ($order_details->status == 'Pending') {
                 $sslc = new SslCommerzNotification();
-                $validation = $sslc->orderValidate($request->all(), $tran_id, $order_details->amount, $order_details->currency);
+                $validation = $sslc->orderValidate($request->all(), $tran_id, $order_details->amount);
                 if ($validation == true) {
                     /*
                     That means IPN worked. Here you need to update order status
