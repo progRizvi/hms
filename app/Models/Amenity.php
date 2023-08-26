@@ -14,4 +14,8 @@ class Amenity extends Model
     {
         return $this->belongsToMany(Room::class, 'room_amenities');
     }
+    public function packages()
+    {
+        return $this->belongsToMany(Package::class, 'package_amenities');
+    }
 }

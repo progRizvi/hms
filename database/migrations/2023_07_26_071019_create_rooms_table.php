@@ -18,7 +18,11 @@ return new class extends Migration
             $table->string('name');
             $table->enum('status', ['active', 'inactive']);
             $table->unsignedBigInteger('room_type_id');
-            $table->string('beds');
+            $table->json('beds');
+            $table->json('images');
+            $table->integer("single_bed");
+            $table->integer("double_bed");
+            $table->integer('person');
             $table->string('available_beds')->nullable();
             $table->string('availability')->nullable();
             $table->decimal('amount', 10, 2);

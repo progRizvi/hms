@@ -20,5 +20,17 @@ class Booking extends Model
     {
         return $this->belongsTo(Amenity::class, 'amenity_id', 'id');
     }
+    public function room_type()
+    {
+        return $this->belongsTo(RoomType::class, 'room_type_id', 'id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+    public function booking_details()
+    {
+        return $this->hasMany(BookingDetails::class);
+    }
 
 }

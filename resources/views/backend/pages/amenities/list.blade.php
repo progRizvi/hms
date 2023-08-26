@@ -1,4 +1,5 @@
 @extends('backend.master')
+@section('title', 'Amenities List')
 @section('content')
     <div class="container">
         <h2>Amenities List</h2>
@@ -9,6 +10,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Price</th>
                     <th scope="col">Status</th>
                     <th>Action</th>
                 </tr>
@@ -38,6 +40,12 @@
                         name: "name",
                         data: function(row) {
                             return row.name;
+                        },
+                    },
+                    {
+                        name: "price",
+                        data: function(row) {
+                            return row.price ? `BDT ${row.price}` : 'N/A';
                         },
                     },
                     {

@@ -18,10 +18,14 @@ return new class extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('address');
+            $table->string('adults')->nullable();
+            $table->string('child')->nullable();
+            $table->string('transaction_id')->nullable();
             $table->integer('contact');
             $table->integer('days')->nullable();
             $table->integer('total_amount')->nullable();
             $table->integer('total_due')->nullable();
+            $table->integer('advance')->nullable();
             $table->string('status')->default('pending');
             $table->timestamps();
         });

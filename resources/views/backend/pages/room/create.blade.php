@@ -3,7 +3,7 @@
     <div class="container">
 
         <h2>Create Room List</h2>
-        <form action="{{ route('room.store') }}" method="post">
+        <form action="{{ route('room.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="">Floor Number</label>
@@ -41,7 +41,7 @@
             {{-- beds --}}
             <div class="mb-3">
                 <label for="">Beds</label>
-                <select name="beds" class="form-control">
+                <select name="beds[]" class="form-control select2" multiple>
                     <option value="">Select A Bed</option>
                     <option value="single">Single</option>
                     <option value="double">Double</option>
@@ -52,6 +52,16 @@
                 <label for="">Available Beds</label>
                 <input type="number" class="form-control" name="available_beds" placeholder="available beds">
             </div>
+            {{-- single_bed --}}
+            <div class="mb-3">
+                <label for="">Single Bed</label>
+                <input type="number" class="form-control" name="single_bed" placeholder="single bed">
+            </div>
+            {{-- double_bed --}}
+            <div class="mb-3">
+                <label for="">Double Bed</label>
+                <input type="number" class="form-control" name="double_bed" placeholder="double bed">
+            </div>
             {{-- availability --}}
             <div class="mb-3">
                 <label for="">Availability</label>
@@ -61,6 +71,13 @@
                     <option value="booked">Booked</option>
                 </select>
             </div>
+            {{-- person --}}
+            <div class="mb-3">
+                <label for="">Person</label>
+                <input type="number" class="form-control" name="person" placeholder="person">
+            </div>
+
+
             {{-- amount --}}
             <div class="mb-3">
                 <label for="">Amount</label>

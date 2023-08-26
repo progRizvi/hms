@@ -1,11 +1,11 @@
 @extends('backend.master')
+@section('title', 'Package List')
 @section('content')
     <div class="container">
-        <h2 class="text-center">Room Lists</h2>
+        <h2 class="text-center">Package Lists</h2>
         <hr>
-
-        <a href="{{ route('room.create') }}"><button class="btn btn-outline-primary">Create</button></a>
-        <table class="table table-bordered" id="room-table">
+        <a href="{{ route('package.create') }}"><button class="btn btn-outline-primary">Create</button></a>
+        <table class="table table-bordered" id="package-table">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -28,7 +28,7 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            $('#room-table').DataTable({
+            $('#package-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('packages.list') }}",
@@ -50,7 +50,7 @@
                         data: null,
                         name: 'room_number',
                         data: function(row) {
-                            return row.room - > room_number;
+                            return row.room.room_number;
                         }
                     },
                     {
@@ -62,32 +62,30 @@
                     },
                     {
                         data: null,
-                        name: 'persion',
+                        name: 'person',
                         data: function(row) {
-                            return row.amenities.map(function(amenity) {
-                                return amenity.name;
-                            }).join(', ');
+                            return row.person;
                         }
                     },
                     {
                         data: null,
                         name: 'adults',
                         data: function(row) {
-                            return row.status;
+                            return row.adult;
                         }
                     },
                     {
                         data: null,
                         name: 'price',
                         data: function(row) {
-                            return row.room_type.name;
+                            return row.price;
                         }
                     },
                     {
                         data: null,
                         name: 'status',
                         data: function(row) {
-                            return row.beds;
+                            return row.status;
                         }
                     },
                     {

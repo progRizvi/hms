@@ -1,4 +1,5 @@
 @extends('backend.master')
+@section('title', 'Edit Amenity')
 @section('content')
     <div class="container">
         <h2>Create Amenity</h2>
@@ -8,6 +9,12 @@
                 <label for="">Name</label>
                 <input type="text" class="form-control" required name="name" placeholder="Enter About Amenities"
                     value="{{ $amenity->name }}">
+            </div>
+            {{-- price --}}
+            <div class="mb-3">
+                <label for="">Price</label>
+                <input type="number" class="form-control" name="price" placeholder="Enter Price"
+                    value="{{ $amenity->price }}">
             </div>
             {{-- status --}}
             <div class="mb-3">

@@ -5,16 +5,18 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\FrontendHomeController;
+use App\Http\Controllers\FrontendRoomController;
 use App\Http\Controllers\frontend\CustomerController;
 use App\Http\Controllers\frontend\UserPanelController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PackageController;
-use App\Http\Controllers\PackagesController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
+use App\Http\Controllers\SslCommerzPaymentController;
+use App\Http\Controllers\UserBookingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,11 +39,8 @@ Route::post('/user/do-login', [UserController::class, 'dologin'])->name('user.do
 // Route::get('booking-index', [BookingController::class, 'index'])->name('booking.index');
 
 //package
-
-Route::get('/Package-list', [PackageController::class, 'list'])->name('package.list');
-Route::get('/Package-create-from', [PackageController::class, 'create'])->name('package.create');
-Route::get('/Package-store', [PackageController::class, 'store'])->name('package.store');
-
+Route::get('/booking/{id}', [UserBookingController::class, 'booking'])->name('user.booking');
+Route::get("/available/rooms/", [FrontendRoomController::class, 'availableRooms'])->name('available.rooms');
 Route::group(['prefix' => 'user', 'middleware' => 'auth:customers'], function () {
     Route::get('/dashboard', [UserPanelController::class, 'index'])->name('user.dashboard');
     Route::get('/logout', [CustomerController::class, 'logout'])->name('user.logout');
@@ -52,19 +51,20 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:customers'], function ()
     Route::get('/change-password', [HomeController::class, 'changePassword'])->name('user.change.password');
     Route::post('/change-password', [HomeController::class, 'changePasswordUpdate'])->name('user.change.password.update');
 
-// SSLCOMMERZ Start
-    Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
-    Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
+    Route::get("/get/package/info", [UserBookingController::class, 'getPackageInfo'])->name('get.package.info');
 
-    Route::post('/pay', [SslCommerzPaymentController::class, 'index']);
-    Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
-
-    Route::post('/success', [SslCommerzPaymentController::class, 'success']);
-    Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
-    Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
-
-    Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 });
+
+Route::post('/pay/{id}', [SslCommerzPaymentController::class, 'index'])->name("pay.now");
+Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
+
+Route::post('/success', [SslCommerzPaymentController::class, 'success']);
+Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
+Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
+
+Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
+
+Route::get("/room/details/{id}", [FrontendHomeController::class, 'roomDetails'])->name('room.details');
 
 // BACKEND START//
 
@@ -81,7 +81,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     // room delete
     Route::get('room/delete/{id}', [RoomController::class, 'delete'])->name('room.delete');
 
-    Route::get('/Amenities', [AmenitiesController::class, 'Amenities'])->name('amenities');
+    // Route::get('/Amenities', [AmenitiesController::class, 'Amenities'])->name('amenities');
     Route::get('/Payment', [PaymentController::class, 'Payment'])->name('payment');
     Route::get('/Booking', [BookingController::class, 'Booking'])->name('booking');
     Route::get('/Employee', [EmployeeController::class, 'list'])->name('employee.list');
@@ -117,7 +117,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     // packages
     Route::group(['prefix' => 'packages'], function () {
         Route::get('/list', [PackageController::class, 'list'])->name('packages.list');
-        Route::get('/create', [PackageController::class, 'create'])->name('packages.create');
+        Route::get('/create', [PackageController::class, 'create'])->name('package.create');
         Route::post('/store', [PackageController::class, 'store'])->name('packages.store');
         Route::get('/edit/{id}', [PackageController::class, 'edit'])->name('packages.edit');
         Route::post('/update/{id}', [PackageController::class, 'update'])->name('packages.update');
@@ -129,7 +129,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
         Route::get('/create-form', [AmenitiesController::class, 'create'])->name('amenities.create');
         Route::post('/store', [AmenitiesController::class, 'store'])->name('amenities.store');
         Route::get('/edit/{id}', [AmenitiesController::class, 'edit'])->name('amenities.edit');
-        Route::post('/update/{id}', [AmenitiesController::class, 'update'])->name('amenities.update');
+        Route::post('/update/{id}', [AmenitiesController::class, 'update'])->name('amenity.update');
         Route::get('/delete/{id}', [AmenitiesController::class, 'delete'])->name('amenities.delete');
     });
 
@@ -144,7 +144,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     });
 
 //payment
-    Route::get('/Payment-list', [PaymentController::class, 'list'])->name('payment.list');
+    Route::get('/payment/list', [PaymentController::class, 'list'])->name('payment.list');
     Route::get('/Payment-create-form', [PaymentController::class, 'create'])->name('Payment.create');
     Route::post('/Payment-store', [PaymentController::class, 'store'])->name('payment.store');
 
@@ -168,8 +168,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     Route::get('/amenitiesreport', [AmenitiesController::class, 'amenities_report'])->name('amenities.report');
     Route::get('/amenitiesreport/search', [AmenitiesController::class, 'amenities_report_search'])->name('amenities.report.search');
 
-    Route::get('/packagesreport', [PackagesController::class, 'packages_report'])->name('packages.report');
-    Route::get('/packagesreport/search', [PackagesController::class, 'packages_report_search'])->name('packages.report.search');
+    // Route::get('/packagesreport', [PackagesController::class, 'packages_report'])->name('packages.report');
+    // Route::get('/packagesreport/search', [PackagesController::class, 'packages_report_search'])->name('packages.report.search');
 
     Route::get('/bookingreport', [BookingController::class, 'booking_report'])->name('booking.report');
     Route::get('/bookingreport/search', [BookingController::class, 'booking_report_search'])->name('booking.report.search');

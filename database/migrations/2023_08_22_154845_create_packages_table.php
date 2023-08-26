@@ -21,6 +21,7 @@ return new class extends Migration
             $table->tinyInteger("adult")->nullable();
             $table->tinyInteger("child")->nullable();
             $table->string("location")->nullable();
+            $table->string('availability')->nullable();
             $table->string("image");
             $table->integer("price");
             $table->string("status")->default("active");

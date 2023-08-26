@@ -11,7 +11,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class RoomController extends Controller
 {
-    function list() {
+    public function list() {
         $rooms = Room::with("amenities", "roomType")->get();
         if (request()->ajax()) {
             return Datatables::of($rooms)
@@ -43,7 +43,6 @@ class RoomController extends Controller
             'name' => 'required|string',
             'status' => 'required|in:active,inactive',
             'room_type_id' => 'required|integer',
-            'beds' => 'required|string',
             "available_beds" => 'required|integer',
             "availability" => 'required',
             'amount' => 'required|numeric',
@@ -56,31 +55,35 @@ class RoomController extends Controller
             toastr()->error('Fill up the form correctly');
             return redirect()->back();
         }
+        $inputs = $request->except("_token");
         $images = [];
         if ($request->hasFile('images')) {
 
             foreach ($request->file('images') as $image) {
                 $imageName = time() . '_' . $image->getClientOriginalName();
-                $image->storeAs('public/images', $imageName);
+                $image->move(public_path('rooms/images'), $imageName);
                 $images[] = $imageName;
             }
-            $images = json_encode($images);
+            $images = $images;
         }
-
-        $room = new Room([
-            'floor_number' => $request->floor_number,
-            'room_number' => $request->room_number,
-            'name' => $request->name,
-            'status' => $request->status,
-            'room_type_id' => $request->room_type_id,
-            'beds' => $request->beds,
-            'available_beds' => $request->available_beds,
-            'availability' => $request->availability,
-            'amount' => $request->amount,
-            'description' => $request->description,
+        $data = [
+            'floor_number' => $request->input('floor_number'),
+            'room_number' => $request->input('room_number'),
+            'name' => $request->input('name'),
+            'status' => $request->input('status'),
+            'room_type_id' => $request->input('room_type_id'),
+            'beds' => $request->input('beds'),
             'images' => $images,
-        ]);
-        $room->save();
+            'single_bed' => $request->input('single_bed'),
+            'double_bed' => $request->input('double_bed'),
+            'person' => $request->input('person'),
+            'available_beds' => $request->input('available_beds'),
+            'availability' => $request->input('availability'),
+            'amount' => $request->input('amount'),
+            'description' => $request->input('description'),
+        ];
+
+        $room = Room::create($data);
         $amenityIds = $request->amenity_id;
         $room->amenities()->attach($amenityIds);
         toastr()->success('Room Created Successfully');
@@ -89,8 +92,9 @@ class RoomController extends Controller
     public function edit($id)
     {
         $room = Room::find($id);
+        $room_types = RoomType::all();
         $amenites = Amenity::all();
-        return view('backend.pages.room.edit', compact('room', 'amenites'));
+        return view('backend.pages.room.edit', compact('room', 'amenites', "room_types"));
     }
     // update
     public function update(Request $request, $id)
@@ -101,7 +105,6 @@ class RoomController extends Controller
             'name' => 'required|string',
             'status' => 'required|in:active,inactive',
             'room_type_id' => 'required|integer',
-            'beds' => 'required|string',
             "available_beds" => 'required|integer',
             "availability" => 'required',
             'amount' => 'required|numeric',
@@ -109,29 +112,30 @@ class RoomController extends Controller
             'amenity_id.*' => 'integer',
         ];
         $validator = Validator::make($request->all(), $rules);
-
         if ($validator->fails()) {
             toastr()->error('Fill up the form correctly');
             return redirect()->back();
         }
-        $images = [];
+        $room = Room::find($id);
+        $images = $room->images;
         if ($request->hasFile('images')) {
-
+            $images = [];
             foreach ($request->file('images') as $image) {
                 $imageName = time() . '_' . $image->getClientOriginalName();
-                $image->storeAs('public/images', $imageName);
+                $image->move(public_path('rooms/images'), $imageName);
                 $images[] = $imageName;
             }
-            $images = json_encode($images);
+            $images = $images;
         }
 
-        $room = Room::find($id);
         $room->floor_number = $request->floor_number;
         $room->room_number = $request->room_number;
         $room->name = $request->name;
         $room->status = $request->status;
         $room->room_type_id = $request->room_type_id;
         $room->beds = $request->beds;
+        $room->single_bed = $request->single_bed;
+        $room->double_bed = $request->double_bed;
         $room->available_beds = $request->available_beds;
         $room->availability = $request->availability;
         $room->amount = $request->amount;

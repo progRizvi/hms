@@ -8,6 +8,11 @@
                 <label for="">Name</label>
                 <input type="text" class="form-control" required name="name" placeholder="Enter About Amenities">
             </div>
+            {{-- price --}}
+            <div class="mb-3">
+                <label for="">Price</label>
+                <input type="number" class="form-control" name="price" placeholder="Enter Price">
+            </div>
             {{-- status --}}
             <div class="mb-3">
                 <label for="">Status</label>
