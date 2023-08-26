@@ -11,7 +11,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class RoomController extends Controller
 {
-    public function list() {
+    function list() {
         $rooms = Room::with("amenities", "roomType")->get();
         if (request()->ajax()) {
             return Datatables::of($rooms)
@@ -32,7 +32,7 @@ class RoomController extends Controller
     {
         $amenites = Amenity::all();
         $room_types = RoomType::all();
-        return view('backend.pages.room.create', compact(['amenites', 'room_types']));
+        return view('backend.pages.room.create', compact('amenites', 'room_types'));
     }
 
     public function store(request $request)

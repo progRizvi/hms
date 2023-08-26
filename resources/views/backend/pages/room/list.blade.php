@@ -1,4 +1,5 @@
 @extends('backend.master')
+@section('title', 'Room List')
 @section('content')
     <div class="container">
         <h2 class="text-center">Room Lists</h2>
@@ -39,79 +40,79 @@
                 columns: [{
                         data: null,
                         name: 'id',
-                        data: function(row) {
-                            return row.id;
+                        render: function(row, type, full, meta) {
+                            return meta.row + 1;
                         }
                     },
                     {
                         data: null,
                         name: 'floor_number',
-                        data: function(row) {
+                        render: function(row) {
                             return row.floor_number;
                         }
                     },
                     {
                         data: null,
                         name: 'room_number',
-                        data: function(row) {
+                        render: function(row) {
                             return row.room_number;
                         }
                     },
                     {
                         data: null,
                         name: 'room_name',
-                        data: function(row) {
+                        render: function(row) {
                             return row.name;
                         }
                     },
                     {
                         data: null,
                         name: 'amenities',
-                        data: function(row) {
+                        render: function(row) {
                             return row.amenities.map(function(amenity) {
-                                return amenity.name;
+                                return amenity?.name;
                             }).join(', ');
                         }
                     },
                     {
                         data: null,
                         name: 'status',
-                        data: function(row) {
+                        render: function(row) {
                             return row.status;
                         }
                     },
                     {
                         data: null,
                         name: 'room_type',
-                        data: function(row) {
-                            return row.room_type.name;
+                        render: function(row) {
+                            return row.room_type?.name;
                         }
                     },
                     {
                         data: null,
                         name: 'beds',
-                        data: function(row) {
+                        render: function(row) {
                             return row.beds;
                         }
                     },
                     {
                         data: null,
                         name: 'available_beds',
-                        data: function(row) {
+                        render: function(row) {
                             return row.available_beds;
                         }
                     },
                     {
                         data: null,
                         name: 'availability',
-                        data: function(row) {
+                        render: function(row) {
                             return row.availability;
                         }
                     },
                     {
                         data: null,
                         name: 'amount',
-                        data: function(row) {
+                        render: function(row) {
                             return row.amount;
                         }
                     },

@@ -1,4 +1,5 @@
 @extends('backend.master')
+@section('title', 'Edit Room')
 @section('content')
     <div class="container">
         <h2 class="text-center">Edit Room Type</h2>
@@ -34,7 +35,7 @@
                 <label for="">Room Type</label>
                 <select name="room_type_id" class="form-control">
                     @foreach ($room_types as $room_type)
-                        <option value="{{ $room->id }}" {{ $room_type->id == $room->room_id ? 'selected' : '' }}>
+                        <option value="{{ $room_type->id }}" {{ $room_type->id == $room->room_id ? 'selected' : '' }}>
                             {{ $room_type->name }}</option>
                     @endforeach
                 </select>
