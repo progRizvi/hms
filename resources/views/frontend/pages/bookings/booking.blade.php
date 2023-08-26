@@ -49,7 +49,7 @@
                                 <div class="form-group">
                                     <span class="form-label">Address</span>
                                     <input class="form-control" type="text" name="address" required
-                                        placeholder="Enter your name">
+                                        placeholder="Enter your Address">
                                 </div>
                                 <div class="form-group">
                                     <span class="form-label">Phone</span>
