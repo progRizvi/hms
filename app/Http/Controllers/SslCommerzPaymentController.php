@@ -100,7 +100,7 @@ class SslCommerzPaymentController extends Controller
             if ($key == 0) {
 
                 $booking = Booking::create([
-                    'user_id' => auth()->user()?->id || 1,
+                    'user_id' => auth("customers")->user()?->id,
                     'room_id' => $room->id,
                     'name' => $request->name,
                     'email' => $request->email,
@@ -116,7 +116,7 @@ class SslCommerzPaymentController extends Controller
 
             BookingDetails::create([
                 'booking_id' => $booking->id,
-                'user_id' => auth()->user()?->id || 1,
+                'user_id' => auth("customers")->user()?->id,
                 'room_id' => $room->id,
                 'name' => $request->name,
                 'email' => $request->email,
