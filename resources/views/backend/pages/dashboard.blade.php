@@ -1,5 +1,5 @@
 @extends('backend.master')
-
+@section('title', 'Dashboard')
 @section('content')
     <style>
         .card {

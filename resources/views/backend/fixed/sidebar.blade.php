@@ -63,7 +63,7 @@
     </li>
 
     <li class="nav-item active">
-        <a class="nav-link" href="{{ route('all.report') }}">
+        <a class="nav-link" href="{{ route('report') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Report</span></a>
 

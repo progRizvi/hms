@@ -160,29 +160,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
         Route::get('/delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
     });
 //report
-    Route::get('/allreport', [ReportController::class, 'all_report'])->name('all.report');
-
-    Route::get('/gueslistreport', [GuestController::class, 'guest_list_report'])->name('guest.list.report');
-    Route::get('/gueslistreport/search', [GuestController::class, 'guest_list_report_search'])->name('guest.list.report.search');
-
-    Route::get('/roomlistreport', [RoomController::class, 'room_list_report'])->name('room.list.report');
-    Route::get('/roomlistreport/search', [RoomController::class, 'room_list_report_search'])->name('room.list.report.search');
-
-    Route::get('/amenitiesreport', [AmenitiesController::class, 'amenities_report'])->name('amenities.report');
-    Route::get('/amenitiesreport/search', [AmenitiesController::class, 'amenities_report_search'])->name('amenities.report.search');
-
-    // Route::get('/packagesreport', [PackagesController::class, 'packages_report'])->name('packages.report');
-    // Route::get('/packagesreport/search', [PackagesController::class, 'packages_report_search'])->name('packages.report.search');
-
-    Route::get('/bookingreport', [BookingController::class, 'booking_report'])->name('booking.report');
-    Route::get('/bookingreport/search', [BookingController::class, 'booking_report_search'])->name('booking.report.search');
-
-    Route::get('/paymentreport', [PaymentController::class, 'payment_report'])->name('payment.report');
-    Route::get('/paymentreport/search', [PaymentController::class, 'payment_report_search'])->name('payment.report.search');
-
-    Route::get('/employeereport', [EmployeeController::class, 'employee_report'])->name('employee.report');
-
-    Route::get('/roomtypereport', [roomtypeController::class, 'roomtype_report'])->name('roomtype.report');
-    Route::get('/roomreport/search', [RoomController::class, 'room_list_report_search'])->name('r.list.report.search');
-
+    Route::get('/report', [ReportController::class, 'report'])->name('report');
+    Route::get('/report/search', [ReportController::class, 'reportSearch'])->name('booking.report.search');
 });
