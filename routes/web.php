@@ -150,14 +150,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     Route::get('/Payment-create-form', [PaymentController::class, 'create'])->name('Payment.create');
     Route::post('/Payment-store', [PaymentController::class, 'store'])->name('payment.store');
 
-//employee
-    Route::get('/Employee-list', [EmployeeController::class, 'list'])->name('employee.list');
-    Route::get('/Employee-create-form', [EmployeeController::class, 'create'])->name('employee.create');
-    Route::post('/Employee-store', [EmployeeController::class, 'store'])->name('employee.store');
-    Route::get('employee/edit/{id}', [EmployeeController::class, 'edit'])->name('employee.edit');
-    Route::get('employee/delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
-    Route::get('employee/update{id}', [EmployeeController::class, 'update'])->name('employee.update');
-
+    //employee
+    Route::group(['prefix' => 'employee'], function () {
+        Route::get('/list', [EmployeeController::class, 'list'])->name('employee.list');
+        Route::get('/create-form', [EmployeeController::class, 'create'])->name('employee.create');
+        Route::post('/store', [EmployeeController::class, 'store'])->name('employee.store');
+        Route::get('/edit/{id}', [EmployeeController::class, 'edit'])->name('employee.edit');
+        Route::post('/update/{id}', [EmployeeController::class, 'update'])->name('employee.update');
+        Route::get('/delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
+    });
 //report
     Route::get('/allreport', [ReportController::class, 'all_report'])->name('all.report');
 

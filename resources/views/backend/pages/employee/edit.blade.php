@@ -1,55 +1,41 @@
 @extends('backend.master')
-
-@section('section')
-
-<h1>Edit Employee Information</h1>
-
-@if(session()->has('msg'))
-<p class="alert alert-success"> {{session()->get('msg')}}</p>
-@endif
-
-@if ($errors->any())
-        @foreach ($errors->all() as $error)
-            <div>
-               <p class="alert alert-danger"> {{$error}}</p>
+@section('title', 'Edit Employee')
+@section('content')
+    <div class="container">
+        <form action="{{ route('employee.update', $employee->id) }}" method="post">
+            @csrf
+            <div class="mb-3">
+                <label for="">Employee Name</label>
+                <input type="text" name="name" class="form-control" id="" value="{{ $employee->employee_name }}">
             </div>
-        @endforeach
-    @endif
-
-<div class="container">
-    <form action="" method="post" enctype="multipart/form-data">
-      @csrf
-      @method('put')
-
-  <div class="mb-3">
-  <label for="">Enter Employee Name </label>
-    <input  type="string" class="form-control" required name="employee_name" placeholder="Enter Employee Name">
-  </div>
-  <div class="mb-3">
-  <label for="">Enter Employee Address </label>
-    <input  name="employee_address" type="string" class="form-control" required name="employee_address" placeholder="Enter Room Location">
-  </div>
-
-  <div class="mb-3">
-  <label for="">Enter Employee Email Address </label>
-    <input  name="employee_email_address" type="string" class="form-control" required name="employee_e_mail_address" placeholder="Enter Room Location">
-</div>
-<div class="mb-3">
-  <label for="">Enter Employee Age </label>
-    <input  name="employee_age" type="string" class="form-control" required name="employee_age" placeholder="Enter Employee Age">
-</div>
-<div class="mb-3">
-  <label for="">Enter Employee Gender </label>
-    <input  name="employee_gender" type="string" class="form-control" required name="employee_gender" placeholder="Enter Employee Gender">
-</div>
-
-<div class="mb-3">
-    <label for="">Enter Employee Description</label>
-    <input  name="employee_description" type="string" class="form-control" required name="employee_description" placeholder="Enter Total Staff">
-  </div>
-  <div >
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-</div>
-
+            <div class="mb-3">
+                <label for="">Employee Address</label>
+                <input type="text" name="address" class="form-control" value="{{ $employee->employee_address }}">
+            </div>
+            <div class="mb-3">
+                <label for="">Employee Email Address</label>
+                <input type="email" name="email_address" class="form-control"
+                    value="{{ $employee->employee_email_address }}">
+            </div>
+            <div class="mb-3">
+                <label for="">Employee Age</label>
+                <input type="text" name="age" class="form-control" value="{{ $employee->employee_age }}">
+            </div>
+            <div class="mb-3">
+                <div>
+                    <label for="">Female</label>
+                    <input type="radio" name="gender" value="female" @if ($employee->employee_gender == 'female') checked @endif>
+                    <label for="">Male</label>
+                    <input type="radio" name="gender" value="male" @if ($employee->employee_gender == 'male') checked @endif>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="">Employee Description</label>
+                <textarea name="description" class="form-control">{{ $employee->employee_description }}</textarea>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
 @endsection

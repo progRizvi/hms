@@ -21,7 +21,6 @@
                     <th scope="col">Availability</th>
                     <th scope="col">Amount</th>
                     <th scope="col">Action</th>
-
                 </tr>
             </thead>
             <tbody>
