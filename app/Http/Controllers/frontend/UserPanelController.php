@@ -8,7 +8,7 @@ class UserPanelController extends Controller
 {
     public function index()
     {
-        return view('frontend.pages.user_panel.layout');
+        return view('frontend.pages.user_panel.dashboard');
     }
 
     public function allBooking()

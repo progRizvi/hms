@@ -7,6 +7,14 @@
     </div>
     <ul id="sidebar_menu">
         <li class>
+            <a href="{{ route('user.dashboard') }}" aria-expanded="false">
+                <div class="icon_menu">
+                    <img src="img/menu-icon/5.svg" alt>
+                </div>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li class>
             <a href="{{ route('user.all.booking') }}" aria-expanded="false">
                 <div class="icon_menu">
                     <img src="img/menu-icon/5.svg" alt>
