@@ -47,94 +47,99 @@
                                         <a href="{{ route('room.details', $room->id) }}"
                                             class="btn btn-sm btn-primary px-3 border-end"
                                             style="border-radius: 30px 0 0 30px;">Read More</a>
-                                        <a href="" class="booking_modal btn btn-sm btn-primary px-3"
-                                            style="border-radius: 0 30px 30px 0;">Book Now</a>
-                                    </div>
+                                        <a @auth('customers')
+                                            href="{{ route('user.booking', $room->id) }}"
+                                            @else
+                                            href="javascript:void(0)"
+                                            data-bs-toggle="modal" data-bs-target="#modalLoginForm"
+                                        @endauth class="booking_modal btn btn-sm btn-primary px-3"
+                                        style="border-radius: 0 30px 30px 0;">Book Now</a>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
             </div>
-            @yield('section')
         </div>
+        @yield('section')
     </div>
+</div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Book Your Room</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control bg-transparent" id="name"
-                                        placeholder="Your Name">
-                                    <label for="name">Your Name</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="email" class="form-control bg-transparent" id="email"
-                                        placeholder="Your Email">
-                                    <label for="email">Your Email</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating date" id="date3" data-target-input="nearest">
-                                    <input type="date" class="form-control bg-transparent datetimepicker-input"
-                                        id="date" placeholder="check in date" data-target="#date3"
-                                        data-toggle="datetimepicker">
-                                    <label for="datetime">Check in Date
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating booking_packages">
-                                    <select class="form-select bg-transparent" id="select1">
-                                        <option value="1">Single room</option>
-                                        <option value="2">Double room</option>
-                                        <option value="3">king room</option>
-                                        <option value="3">Adjoining room</option>
-                                    </select>
-                                    <label for="select1">Packages</label>
-                                </div>
+<!-- Modal -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Book Your Room</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control bg-transparent" id="name"
+                                    placeholder="Your Name">
+                                <label for="name">Your Name</label>
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Book Now</button>
-                </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="email" class="form-control bg-transparent" id="email"
+                                    placeholder="Your Email">
+                                <label for="email">Your Email</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating date" id="date3" data-target-input="nearest">
+                                <input type="date" class="form-control bg-transparent datetimepicker-input"
+                                    id="date" placeholder="check in date" data-target="#date3"
+                                    data-toggle="datetimepicker">
+                                <label for="datetime">Check in Date
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating booking_packages">
+                                <select class="form-select bg-transparent" id="select1">
+                                    <option value="1">Single room</option>
+                                    <option value="2">Double room</option>
+                                    <option value="3">king room</option>
+                                    <option value="3">Adjoining room</option>
+                                </select>
+                                <label for="select1">Packages</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Book Now</button>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @push('js')
-    <script>
-        $(document).ready(function() {
-            $('.booking_modal').click(function() {
-                var id = $(this).data('id');
-                var type = $(this).data('type');
-                var url = `{{ route('user.booking', '') }}/${id}`;
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    data: {
-                        id: id,
-                        type: type
-                    },
-                    success: function(response) {
-                        $('.modal-body').html(response);
-                    }
-                });
+<script>
+    $(document).ready(function() {
+        $('.booking_modal').click(function() {
+            var id = $(this).data('id');
+            var type = $(this).data('type');
+            var url = `{{ route('user.booking', '') }}/${id}`;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: {
+                    id: id,
+                    type: type
+                },
+                success: function(response) {
+                    $('.modal-body').html(response);
+                }
             });
         });
-    </script>
+    });
+</script>
 @endpush

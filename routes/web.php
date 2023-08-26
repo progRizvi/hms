@@ -39,10 +39,9 @@ Route::post('/user/do-login', [UserController::class, 'dologin'])->name('user.do
 // Route::get('booking-index', [BookingController::class, 'index'])->name('booking.index');
 
 //package
-Route::get('/booking/{id}', [UserBookingController::class, 'booking'])->name('user.booking');
+
 Route::get("/available/rooms/", [FrontendRoomController::class, 'availableRooms'])->name('available.rooms');
 Route::group(['prefix' => 'user', 'middleware' => 'auth:customers'], function () {
-
     Route::get('/dashboard', [UserPanelController::class, 'index'])->name('user.dashboard');
     Route::get('/logout', [CustomerController::class, 'logout'])->name('user.logout');
     Route::get("/all-booking", [UserPanelController::class, 'allBooking'])->name('user.all.booking');
@@ -52,7 +51,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:customers'], function ()
     Route::post('/profile/update', [HomeController::class, 'profileUpdate'])->name('user.profile.update');
     Route::get('/change-password', [HomeController::class, 'changePassword'])->name('user.change.password');
     Route::post('/change-password', [HomeController::class, 'changePasswordUpdate'])->name('user.change.password.update');
-
+    Route::get('/booking/{id}', [UserBookingController::class, 'booking'])->name('user.booking');
     Route::get("/get/package/info", [UserBookingController::class, 'getPackageInfo'])->name('get.package.info');
 
 });

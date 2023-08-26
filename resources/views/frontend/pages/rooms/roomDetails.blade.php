@@ -25,9 +25,6 @@
 
                     <!--Card content-->
                     <div class="card-body">
-
-                        <!--Title-->
-                        <h4 class="card-title">Card title</h4>
                         <!--Text-->
                         <p class="card-text">
                             <strong>Floor Number:</strong> {{ $room->floor_number }}<br>
@@ -48,7 +45,13 @@
                             <strong>Amount:</strong> ${{ $room->amount }}<br>
                             <strong>Description:</strong> {{ $room->description }}<br>
                         </p>
-                        <a href="{{ route('user.booking', $room->id) }}" class="btn btn-info btn-md">Book Now</a>
+                        <a @auth('customers')
+                                            href="{{ route('user.booking', $room->id) }}"
+                                            @else
+                                            href="javascript:void(0)"
+                                            data-bs-toggle="modal" data-bs-target="#modalLoginForm"
+                                        @endauth
+                            class="btn btn-info btn-md">Book Now</a>
 
                     </div>
 
