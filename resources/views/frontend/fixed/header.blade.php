@@ -73,8 +73,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
-                    <a href="package.html" class="nav-item nav-link">Packages</a>
+                    <a href="{{ route('frontend.home') }}" class="nav-item nav-link active">Home</a>
+                    <a href="{{ route('available.rooms') }}" class="nav-item nav-link">Rooms</a>
                     @auth('customers')
                         <a href="{{ route('user.dashboard') }}" class="nav-item nav-link">Dashboard</a>
                         <a href="{{ route('userCustomer.logout') }}" class="nav-item nav-link">Logout</a>
