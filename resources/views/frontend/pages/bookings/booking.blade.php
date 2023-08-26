@@ -86,8 +86,8 @@
                 var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
                 var amount = {{ $room->amount }};
                 var total = amount * Difference_In_Days;
-                $('[name="amount"]').val(total ? total : "{{ $room->amount }}");
-                $("#total").text(total ? total : "{{ $room->amount }}");
+                $('[name="amount"]').val(total ? total > 0 && total : "{{ $room->amount }}");
+                $("#total").text(total ? total > 0 && total : "{{ $room->amount }}");
             });
         });
     </script>
