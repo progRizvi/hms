@@ -66,7 +66,7 @@ class BookingController extends Controller
     {
         $book = Booking::find($id);
         $book->update([
-            'status' => "Confirm",
+            'status' => "confirm",
         ]);
         toastr()->success('Booking Confirm Successfully');
         return redirect()->back();
@@ -75,7 +75,7 @@ class BookingController extends Controller
     {
         $book = Booking::find($id);
         $book->update([
-            'status' => "Cancel",
+            'status' => "cancel",
         ]);
         toastr()->success('Booking Cancel Successfully');
         return redirect()->back();

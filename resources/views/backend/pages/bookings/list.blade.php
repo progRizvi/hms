@@ -132,7 +132,7 @@
                             if (data.status == "pending") {
                                 return `<a href="{{ route('booking.confirm', '') }}/${data.id}" class="btn btn-primary btn-sm">Confirm</a>
                             <a href="{{ route('booking.cancel', '') }}/${data.id}" class="btn btn-danger btn-sm">Cancel</a>`;
-                            } else if (data.status == "confirmed") {
+                            } else if (data.status == "confirm") {
                                 return `<a href="{{ route('booking.cancel', '') }}/${data.id}" class="btn btn-danger btn-sm">Cancel</a>`;
                             } else {
                                 return `<a href="{{ route('booking.confirm', '') }}/${data.id}" class="btn btn-primary btn-sm">Confirm</a>`;
