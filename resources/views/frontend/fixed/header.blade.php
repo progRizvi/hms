@@ -77,7 +77,7 @@
                     <a href="{{ route('available.rooms') }}" class="nav-item nav-link">Rooms</a>
                     @auth('customers')
                         <a href="{{ route('user.dashboard') }}" class="nav-item nav-link">User Profile</a>
-                        <a href="{{ route('userCustomer.logout') }}" class="nav-item nav-link">Logout</a>
+                        <a href="{{ route('user.logout') }}" class="nav-item nav-link">Logout</a>
                     @else
                         <a href="javascript:void(0)" class="nav-item nav-link" data-bs-toggle="modal"
                             data-bs-target="#modalLoginForm">Login</a>

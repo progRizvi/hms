@@ -37,11 +37,11 @@
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Rooms</span></a>
     </li>
-    <li class="nav-item active">
+    {{-- <li class="nav-item active">
         <a class="nav-link" href="{{ route('packages.list') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Packages</span></a>
-    </li>
+    </li> --}}
 
     <li class="nav-item active">
         <a class="nav-link" href="{{ route('booking.list') }}">

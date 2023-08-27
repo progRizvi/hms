@@ -13,7 +13,6 @@
                     <th scope="col">Email</th>
                     <th scope="col">Age</th>
                     <th scope="col">Gender</th>
-                    <th scope="col">Description</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>

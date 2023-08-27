@@ -210,7 +210,6 @@ class SslCommerzPaymentController extends Controller
 
     public function success(Request $request)
     {
-
         echo "Transaction is Successful";
 
         $tran_id = $request->input('tran_id');
@@ -219,7 +218,7 @@ class SslCommerzPaymentController extends Controller
 
         $sslc = new SslCommerzNotification();
 
-        #Check order status in order tabel against the transaction id or order id.
+        # Check order status in order tabel against the transaction id or order id.
         $booking_details = DB::table('bookings')
             ->where('transaction_id', $tran_id)
             ->select('transaction_id', 'status', 'advance', "room_id")->first();
@@ -249,7 +248,6 @@ class SslCommerzPaymentController extends Controller
         }
         toastr()->success('Success!', 'Booking Successfully');
         return to_route("frontend.home");
-
     }
 
     public function fail(Request $request)
