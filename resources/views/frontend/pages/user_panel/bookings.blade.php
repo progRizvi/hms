@@ -39,6 +39,7 @@
                                     <th>Paid</th>
                                     <th>Due</th>
                                     <th>Room Number</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -46,18 +47,23 @@
                                 @foreach ($bookings as $key => $booking)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>{{ $booking->booking_details[0]->check_in_date }}</td>
-                                        <td>{{ $booking->booking_details[count($booking->booking_details) - 1]->check_in_date }}
+                                        <td>{{ isset($booking->booking_details[0]) ? $booking->booking_details[0]?->check_in_date : '' }}
+                                        </td>
+                                        <td>{{ isset($booking->booking_details[0]) ? $booking->booking_details[count($booking->booking_details) - 1]->check_in_date : '' }}
                                         </td>
                                         <td>{{ count($booking->booking_details) }}</td>
                                         <td>BDT {{ $booking->advance }}</td>
                                         <td>BDT {{ $booking->total_due }}</td>
                                         <td>{{ $booking->room->room_number }}</td>
+                                        <td>{{ $booking->status }}</td>
                                         <td>
-                                            <a href="{{ route('user.cancel.booking', $booking->id) }}"
-                                                class="btn btn-sm btn-danger">
-                                                Cancel
-                                            </a>
+                                            @if (!($booking->status == 'cancel' || $booking->status == 'confirm'))
+                                                <a href="{{ route('user.cancel.booking', $booking->id) }}"
+                                                    class="btn btn-sm btn-danger">
+                                                    Cancel
+                                                </a>
+                                            @endif
+
                                         </td>
                                     </tr>
                                 @endforeach
