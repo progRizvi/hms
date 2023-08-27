@@ -11,7 +11,7 @@
                 <div class="icon_menu">
                     <img src="img/menu-icon/5.svg" alt>
                 </div>
-                <span>Dashboard</span>
+                <span>User Profile</span>
             </a>
         </li>
         <li class>

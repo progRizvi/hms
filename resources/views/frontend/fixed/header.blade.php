@@ -1,6 +1,6 @@
 <head>
     <meta charset="utf-8">
-    <title>Tourist - Travel Agency HTML Template</title>
+    <title>Hotel Management System</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -76,7 +76,7 @@
                     <a href="{{ route('frontend.home') }}" class="nav-item nav-link active">Home</a>
                     <a href="{{ route('available.rooms') }}" class="nav-item nav-link">Rooms</a>
                     @auth('customers')
-                        <a href="{{ route('user.dashboard') }}" class="nav-item nav-link">Dashboard</a>
+                        <a href="{{ route('user.dashboard') }}" class="nav-item nav-link">User Profile</a>
                         <a href="{{ route('userCustomer.logout') }}" class="nav-item nav-link">Logout</a>
                     @else
                         <a href="javascript:void(0)" class="nav-item nav-link" data-bs-toggle="modal"

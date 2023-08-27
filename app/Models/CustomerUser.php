@@ -9,6 +9,10 @@ class CustomerUser extends Authenticatable
 {
     use HasFactory;
     protected $guarded = [];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
     // bookings
     public function bookings()
     {

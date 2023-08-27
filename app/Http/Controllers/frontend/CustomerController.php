@@ -64,4 +64,21 @@ class CustomerController extends Controller
         Toastr::success('Logout Successfully', 'Success');
         return redirect()->route('frontend.home');
     }
+    public function updateProfile(Request $request)
+    {
+        $fileName = auth()->guard('customers')->user()->image;
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = md5(time() . rand()) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/customers/'), $fileName);
+        }
+        auth()->guard('customers')->user()->update([
+            'name' => $request->name,
+            'contact' => $request->phone,
+            "address" => $request->address,
+            'email' => $request->email,
+            'image' => $fileName,
+        ]);
+        return ["status" => "success", "message" => "User Updated Success fully", "data" => auth()->guard('customers')->user()];
+    }
 }

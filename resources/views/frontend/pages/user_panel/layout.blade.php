@@ -7,8 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>@yield('title')</title>
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <link rel="stylesheet" href="{{ url('frontend/userPanel/css/bootstrap1.min.css') }}" />
+
 
     <link rel="stylesheet" href="{{ url('frontend/userPanel/css/themify-icons.css') }}" />
 
@@ -66,7 +69,8 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+
 
 
     <script src="{{ url('frontend/puserPanel/js/metisMenu.js') }}"></script>
@@ -87,6 +91,16 @@
     <script src="{{ url('frontend/puserPanel/js/dashboard_init.js') }}"></script>
     <script src="{{ url('frontend/puserPanel/js/custom.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    {{-- ajax setup --}}
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+            }
+        });
+    </script>
+    @stack('js')
 </body>
 
 </html>

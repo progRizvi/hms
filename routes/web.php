@@ -48,6 +48,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:customers'], function ()
     Route::get("/booking/cancel/{id}", [UserBookingController::class, 'cancel'])->name('user.cancel.booking');
     Route::get('/profile', [HomeController::class, 'profile'])->name('user.profile');
     Route::get('/profile/edit', [HomeController::class, 'profileEdit'])->name('user.profile.edit');
+    Route::post("/update/profile", [CustomerController::class, 'updateProfile'])->name("user.update.profile");
     Route::post('/profile/update', [HomeController::class, 'profileUpdate'])->name('user.profile.update');
     Route::get('/change-password', [HomeController::class, 'changePassword'])->name('user.change.password');
     Route::post('/change-password', [HomeController::class, 'changePasswordUpdate'])->name('user.change.password.update');
@@ -88,7 +89,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     Route::get('/Report', [ReportController::class, 'Report'])->name('report');
     Route::get('/Feedback', [FeedbackController::class, 'Feedback'])->name('feedback');
 
-//guest
+    //guest
     Route::get('/guest-list', [GuestController::class, 'list'])->name('guest.list');
     Route::get('guest/edit/{id}', [GuestController::class, 'edit'])->name('guest.edit');
     Route::get('guest/delete/{id}', [GuestController::class, 'delete'])->name('guest.delete');
@@ -159,7 +160,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
         Route::post('/update/{id}', [EmployeeController::class, 'update'])->name('employee.update');
         Route::get('/delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
     });
-//report
+    //report
     Route::get('/report', [ReportController::class, 'report'])->name('report');
     Route::get('/report/search', [ReportController::class, 'reportSearch'])->name('booking.report.search');
 });
